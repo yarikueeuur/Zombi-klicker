@@ -1,192 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zombi Clicker</title>
-    <style>
-        /* Базовые стили */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f2f2f2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zombi Clicker</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('https://i.imgur.com/bvUUXKS.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Minecraftia', sans-serif;
+      color: white;
+      text-align: center;
+    }.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
 
-        .container {
-            text-align: center;
-            width: 100%;
-            max-width: 350px;
-            padding: 10px;
-            background-color: #333;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
+.tap-button {
+  background: url('https://i.imgur.com/1Xq4Uep.png') no-repeat center;
+  background-size: cover;
+  border: none;
+  width: 100px;
+  height: 100px;
+  margin-top: 20px;
+}
 
-        .coin-display, .level-display {
-            font-size: 24px;
-            color: #fff;
-            margin: 10px 0;
-        }
+.stats {
+  margin: 10px 0;
+  font-size: 18px;
+}
 
-        .tap-button {
-            background-color: #ff6f00;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #fff;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+  justify-content: center;
+}
 
-        .tap-button:hover {
-            background-color: #ff4500;
-        }
+.menu button {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #2f2f2f;
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 8px;
+}
 
-        /* Стиль для кнопок и элементов интерфейса */
-        .stats-container {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
+.leaderboard {
+  margin-top: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        .btn {
-            background-color: #6200ea;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #3700b3;
-        }
-
-        .rank-button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #03dac5;
-        }
-
-        /* Для мобильных устройств */
-        @media (max-width: 500px) {
-            .container {
-                width: 100%;
-                padding: 15px;
-            }
-
-            .tap-button {
-                font-size: 16px;
-                padding: 12px 20px;
-            }
-
-            .stats-container {
-                flex-direction: column;
-            }
-        }
-    </style>
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1 style="color: white;">Zombi Clicker</h1>
-
-        <!-- Показ монет и уровня -->
-        <div class="coin-display">Монеты: <span id="coins-display">0</span></div>
-        <div class="level-display">Уровень: <span id="level-display">1</span></div>
-
-        <!-- Кнопка Tap -->
-        <button class="tap-button" onclick="addCoins(1)">Tap!</button>
-
-        <!-- Дополнительные кнопки -->
-        <div class="stats-container">
-            <button class="btn" onclick="showRank()">Рейтинг</button>
-            <button class="btn" onclick="changeLanguage()">Язык</button>
-        </div>
-
-        <div id="rank-container" style="display: none;">
-            <h3>ТОП 500 игроков</h3>
-            <!-- Список игроков (можно подключить динамически) -->
-            <ul id="rank-list"></ul>
-        </div>
-
+  <div class="container">
+    <h1>Zombi Clicker</h1>
+    <div class="stats">
+      <div>Монеты: <span id="coins">0</span></div>
+      <div>Уровень: <span id="level">1</span></div>
     </div>
+    <button class="tap-button" onclick="tap()"></button><div class="menu">
+  <button onclick="alert('Инвентарь в разработке')">Инвентарь</button>
+  <button onclick="alert('Магазин скоро!')">Магазин</button>
+  <button onclick="showLeaderboard()">Рейтинг</button>
+</div>
 
-    <script>
-        // Инициализация данных
-        function loadGameData() {
-            let coins = localStorage.getItem('coins') || 0;
-            let level = localStorage.getItem('level') || 1;
-            return {
-                coins: parseInt(coins),
-                level: parseInt(level)
-            };
-        }
+<div class="leaderboard" id="leaderboard" style="display: none">
+  <h3>Топ 5 игроков</h3>
+  <ul id="leaderboardList"></ul>
+</div>
 
-        // Сохранение данных
-        function saveGameData(coins, level) {
-            localStorage.setItem('coins', coins);
-            localStorage.setItem('level', level);
-        }
+  </div>  <script>
+    let coins = parseInt(localStorage.getItem('coins')) || 0;
+    let level = parseInt(localStorage.getItem('level')) || 1;
 
-        // Функция обновления отображаемых значений
-        function updateDisplay() {
-            let gameData = loadGameData();
-            document.getElementById('coins-display').innerText = gameData.coins;
-            document.getElementById('level-display').innerText = gameData.level;
-        }
+    document.getElementById("coins").textContent = coins;
+    document.getElementById("level").textContent = level;
 
-        // Добавление монет и проверка уровня
-        function addCoins(amount) {
-            let gameData = loadGameData();
-            gameData.coins += amount;
+    function tap() {
+      coins++;
+      if (coins % 250 === 0) {
+        level++;
+      }
+      localStorage.setItem('coins', coins);
+      localStorage.setItem('level', level);
+      document.getElementById("coins").textContent = coins;
+      document.getElementById("level").textContent = level;
+    }
 
-            if (gameData.coins >= 250) {
-                gameData.level += 1;
-                gameData.coins = 0; // Сброс монет при переходе на новый уровень
-            }
-
-            saveGameData(gameData.coins, gameData.level);
-            updateDisplay();
-        }
-
-        // Функция для отображения рейтинга
-        function showRank() {
-            let rankContainer = document.getElementById('rank-container');
-            rankContainer.style.display = rankContainer.style.display === 'none' ? 'block' : 'none';
-
-            // Динамическое добавление списка игроков
-            let rankList = document.getElementById('rank-list');
-            rankList.innerHTML = ''; // Очистить список
-
-            // Пример данных для ТОП 500 (замени на реальные данные)
-            for (let i = 1; i <= 500; i++) {
-                let listItem = document.createElement('li');
-                listItem.textContent = `Игрок ${i} - Уровень ${i} - Монеты: ${Math.floor(Math.random() * 1000)}`;
-                rankList.appendChild(listItem);
-            }
-        }
-
-        // Функция смены языка (простой пример)
-        function changeLanguage() {
-            alert('Язык изменен');
-        }
-
-        // Обновление интерфейса при загрузке страницы
-        window.onload = function() {
-            updateDisplay();
-        };
-    </script>
-
-</body>
+    function showLeaderboard() {
+      const fakeLeaderboard = [
+        { name: "Игрок1", coins: 10250, level: 50 },
+        { name: "Игрок2", coins: 8800, level: 44 },
+        { name: "Игрок3", coins: 7000, level: 35 },
+        { name: "Игрок4", coins: 4200, level: 24 },
+        { name: "Игрок5", coins: 3200, level: 18 },
+      ];
+      const list = document.getElementById('leaderboardList');
+      list.innerHTML = "";
+      fakeLeaderboard.forEach(player => {
+        const li = document.createElement('li');
+        li.textContent = `${player.name} - ${player.coins} монет, уровень ${player.level}`;
+        list.appendChild(li);
+      });
+      document.getElementById('leaderboard').style.display = 'block';
+    }
+  </script></body>
 </html>
