@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,116 +7,78 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: url('https://i.imgur.com/bvUUXKS.png') no-repeat center center fixed;
+      font-family: 'Arial', sans-serif;
+      background: url('https://i.imgur.com/pw7GBte.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Minecraftia', sans-serif;
       color: white;
       text-align: center;
-    }.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.tap-button {
-  background: url('https://i.imgur.com/1Xq4Uep.png') no-repeat center;
-  background-size: cover;
-  border: none;
-  width: 100px;
-  height: 100px;
-  margin-top: 20px;
-}
-
-.stats {
-  margin: 10px 0;
-  font-size: 18px;
-}
-
-.menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-  justify-content: center;
-}
-
-.menu button {
-  padding: 10px;
-  font-size: 14px;
-  background-color: #2f2f2f;
-  border: 2px solid #fff;
-  color: #fff;
-  border-radius: 8px;
-}
-
-.leaderboard {
-  margin-top: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 15px;
-  border-radius: 10px;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
+    }
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    #zombie {
+      width: 150px;
+      height: auto;
+      margin: 20px auto;
+      animation: float 2s infinite ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    .btn {
+      background: #3b873d;
+      border: 2px solid #2e6b2e;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: white;
+      border-radius: 10px;
+      margin: 10px;
+      width: 80%;
+      max-width: 300px;
+    }
+    .stats {
+      margin: 20px 0;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Zombi Clicker</h1>
+    <img id="zombie" src="https://i.imgur.com/QZonOHZ.png" alt="Зомби на курице" />
     <div class="stats">
       <div>Монеты: <span id="coins">0</span></div>
       <div>Уровень: <span id="level">1</span></div>
     </div>
-    <button class="tap-button" onclick="tap()"></button><div class="menu">
-  <button onclick="alert('Инвентарь в разработке')">Инвентарь</button>
-  <button onclick="alert('Магазин скоро!')">Магазин</button>
-  <button onclick="showLeaderboard()">Рейтинг</button>
-</div>
+    <button class="btn" onclick="tap()">TAP</button>
+    <button class="btn" onclick="openInventory()">Инвентарь</button>
+  </div>
 
-<div class="leaderboard" id="leaderboard" style="display: none">
-  <h3>Топ 5 игроков</h3>
-  <ul id="leaderboardList"></ul>
-</div>
-
-  </div>  <script>
+  <script>
     let coins = parseInt(localStorage.getItem('coins')) || 0;
-    let level = parseInt(localStorage.getItem('level')) || 1;
 
-    document.getElementById("coins").textContent = coins;
-    document.getElementById("level").textContent = level;
+    function updateStats() {
+      document.getElementById('coins').textContent = coins;
+      document.getElementById('level').textContent = Math.floor(coins / 250) + 1;
+    }
 
     function tap() {
       coins++;
-      if (coins % 250 === 0) {
-        level++;
-      }
       localStorage.setItem('coins', coins);
-      localStorage.setItem('level', level);
-      document.getElementById("coins").textContent = coins;
-      document.getElementById("level").textContent = level;
+      updateStats();
     }
 
-    function showLeaderboard() {
-      const fakeLeaderboard = [
-        { name: "Игрок1", coins: 10250, level: 50 },
-        { name: "Игрок2", coins: 8800, level: 44 },
-        { name: "Игрок3", coins: 7000, level: 35 },
-        { name: "Игрок4", coins: 4200, level: 24 },
-        { name: "Игрок5", coins: 3200, level: 18 },
-      ];
-      const list = document.getElementById('leaderboardList');
-      list.innerHTML = "";
-      fakeLeaderboard.forEach(player => {
-        const li = document.createElement('li');
-        li.textContent = `${player.name} - ${player.coins} монет, уровень ${player.level}`;
-        list.appendChild(li);
-      });
-      document.getElementById('leaderboard').style.display = 'block';
+    function openInventory() {
+      alert("Инвентарь пока не работает, но скоро будет!");
     }
-  </script></body>
+
+    updateStats();
+  </script>
+</body>
 </html>
