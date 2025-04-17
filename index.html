@@ -1,84 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zombi Clicker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zombi Klicker</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: url('https://i.imgur.com/pw7GBte.png') no-repeat center center fixed;
+      padding: 0;
+      background: url('https://i.imgur.com/bAIUFC1.png') no-repeat center center fixed;
       background-size: cover;
+      font-family: 'Arial', sans-serif;
       color: white;
       text-align: center;
     }
     .container {
-      padding: 20px;
+      margin-top: 50px;
     }
     h1 {
       font-size: 24px;
       margin-bottom: 10px;
     }
-    #zombie {
-      width: 150px;
-      height: auto;
-      margin: 20px auto;
-      animation: float 2s infinite ease-in-out;
+    .coins, .level {
+      font-size: 20px;
+      margin: 10px 0;
     }
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-    .btn {
-      background: #3b873d;
-      border: 2px solid #2e6b2e;
-      padding: 10px 20px;
-      font-size: 18px;
+    button {
+      background-color: #28a745;
+      border: none;
+      padding: 15px 30px;
       color: white;
+      font-size: 20px;
       border-radius: 10px;
       margin: 10px;
-      width: 80%;
-      max-width: 300px;
-    }
-    .stats {
-      margin: 20px 0;
-      font-size: 18px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Zombi Clicker</h1>
-    <img id="zombie" src="https://i.imgur.com/QZonOHZ.png" alt="Зомби на курице" />
-    <div class="stats">
-      <div>Монеты: <span id="coins">0</span></div>
-      <div>Уровень: <span id="level">1</span></div>
-    </div>
-    <button class="btn" onclick="tap()">TAP</button>
-    <button class="btn" onclick="openInventory()">Инвентарь</button>
+    <h1>Zombi Klicker</h1>
+    <div class="coins">Монеты: <span id="coins">0</span></div>
+    <div class="level">Уровень: <span id="level">1</span></div>
+    <button onclick="tap()">Tap</button>
   </div>
 
   <script>
-    let coins = parseInt(localStorage.getItem('coins')) || 0;
+    let coins = localStorage.getItem("coins") || 0;
+    let level = localStorage.getItem("level") || 1;
 
-    function updateStats() {
-      document.getElementById('coins').textContent = coins;
-      document.getElementById('level').textContent = Math.floor(coins / 250) + 1;
-    }
+    const coinsEl = document.getElementById('coins');
+    const levelEl = document.getElementById('level');
+
+    coinsEl.innerText = coins;
+    levelEl.innerText = level;
 
     function tap() {
       coins++;
-      localStorage.setItem('coins', coins);
-      updateStats();
+      coinsEl.innerText = coins;
+      if (coins % 250 === 0) {
+        level++;
+        levelEl.innerText = level;
+      }
+      localStorage.setItem("coins", coins);
+      localStorage.setItem("level", level);
     }
-
-    function openInventory() {
-      alert("Инвентарь пока не работает, но скоро будет!");
-    }
-
-    updateStats();
   </script>
 </body>
 </html>
